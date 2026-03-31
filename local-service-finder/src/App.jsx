@@ -9,7 +9,6 @@ import PostService from './pages/PostService.jsx'
 import './index.css'
 
 function App() {
-  // ✅ State must be here, at the top of the component
   const [services, setServices] = useState([
     { id: 1, name: "Plumbing", category: "Repair", location: "Phnom Penh", price: 20, rating: 4.5, description: "Fix leaks and pipes", imageUrl: "https://via.placeholder.com/150" },
     { id: 2, name: "Math Tutor", category: "Tutor", location: "Siem Reap", price: 15, rating: 4.8, description: "One-on-one tutoring", imageUrl: "https://via.placeholder.com/150" },

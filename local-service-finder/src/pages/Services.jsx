@@ -7,7 +7,7 @@ import { useState } from "react";
 import SearchBar from "../components/SearchBar";
 import ServiceCard from "../components/ServiceCard";
 
-const allServices = [
+const Services = [
   { id: 1, name: "Plumbing", category: "Repair", location: "Phnom Penh", price: 20, rating: 4.5, description: "Fix leaks and pipes", imageUrl: "https://via.placeholder.com/150" },
   { id: 2, name: "Math Tutor", category: "Tutor", location: "Siem Reap", price: 15, rating: 4.8, description: "One-on-one tutoring", imageUrl: "https://via.placeholder.com/150" },
   { id: 3, name: "Food Delivery", category: "Food", location: "Battambang", price: 5, rating: 4.2, description: "Local meals delivered", imageUrl: "https://via.placeholder.com/150" },
