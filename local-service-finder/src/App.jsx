@@ -1,19 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from './components/Navbar.jsx'
-import Home from './pages/Home.jsx'
-import Services from './pages/Services.jsx'
-import ServiceDetail from './pages/ServiceDetail.jsx'
-import PostService from './pages/PostService.jsx'
-import './index.css'
+import Navbar from './components/Navbar.jsx';
+import Home from './pages/Home.jsx';
+import Services from './pages/Services.jsx';
+import ServiceDetail from './pages/ServiceDetail.jsx';
+import PostService from './pages/PostService.jsx';
+import servicesData from './data/services.js';
+import './index.css';
+import BottomNav from './components/BottomNav.jsx';
 
 function App() {
-  const [services, setServices] = useState([
-    { id: 1, name: "Plumbing", category: "Repair", location: "Phnom Penh", price: 20, rating: 4.5, description: "Fix leaks and pipes", imageUrl: "https://via.placeholder.com/150" },
-    { id: 2, name: "Math Tutor", category: "Tutor", location: "Siem Reap", price: 15, rating: 4.8, description: "One-on-one tutoring", imageUrl: "https://via.placeholder.com/150" },
-    { id: 3, name: "Food Delivery", category: "Food", location: "Battambang", price: 5, rating: 4.2, description: "Local meals delivered", imageUrl: "https://via.placeholder.com/150" },
-  ]);
+  const [services, setServices] = useState(servicesData);
 
   const addService = (newService) => {
     setServices([...services, { ...newService, id: services.length + 1 }]);
@@ -21,27 +18,20 @@ function App() {
 
   return (
     <Router>
-      <div className="app">
+      <div className="min-h-screen bg-zinc-100 text-zinc-900 pb-20">
         <Navbar />
-        <main>
+        <main className="px-4 pb-6">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home services={services} />} />
             <Route path="/services" element={<Services services={services} />} />
-            <Route path="/services/:id" element={<ServiceDetail />} />
+            <Route path="/services/:id" element={<ServiceDetail services={services} />} />
             <Route path="/post-service" element={<PostService onAddService={addService} />} />
           </Routes>
         </main>
+        <BottomNav />
       </div>
     </Router>
   );
 }
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
-
-
 
 export default App;

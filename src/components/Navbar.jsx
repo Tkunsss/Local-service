@@ -1,38 +1,114 @@
-// Instruction: Update the brand name to your project name (e.g., "Local Service Finder").
-// Instruction: Keep links aligned to the main pages listed in the project brief.
-// Instruction: Use React Router <Link> later; for now <a> is fine for static UI.
-// Instruction: Add icons, hover effects, and dark/light mode styles in your CSS/Tailwind.
-import React from "react";
-import { Home, Tooltip, Info, PlusCircle, User, Moon, Sun } from 'lucide-react';
-import './Navbar.css';
-function Navbar() {
-    return (
-        <nav className="navbar">
-            {/* Instruction: Brand / logo text or icon */}
-            <div className="navbar-brand">
-                <span className="logo-icon">🔍</span>
-                <h1>Local Service Finder</h1>
-            </div>
-            {/* Instruction: Main nav links (Home, Services, Detail, Post, Auth) */}
-            <ul className="navbar-links">
-                <li><a href="/"><Home size={18} /> Home</a></li>
-                <li><a href="/services"><Tooltip size={18} /> Services</a></li>
-                <li><a href="/detail"><Info size={18} /> Detail</a></li>
-                <li><a href="/post"><PlusCircle size={18} /> Post Service</a></li>
-            </ul>
-            {/* Instruction: Actions (theme toggle + CTA button) */}
-            <div className="navbar-actions">
-                <button className="theme-toggle" title="Toggle Theme">
-                    <Moon size={20} className="dark-icon" />
-                    {/* <Sun size={20} className="light-icon" /> */}
-                </button>
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-                <a href="/login" className="cta-button">
-                    <User size={18} /> Login
-                </a>
-            </div>
-        </nav>
-    );
+// Location list shown in the header picker.
+const locations = [
+  { value: "Kandal", label: "Kandal (កណ្តាល)" },
+  { value: "Kampot", label: "Kampot (កំពត)" },
+  { value: "Kampong Cham", label: "Kampong Cham (កំពង់ចាម)" },
+  { value: "Kampong Chhnang", label: "Kampong Chhnang (កំពង់ឆ្នាំង)" },
+  { value: "Kampong Thom", label: "Kampong Thom (កំពង់ធំ)" },
+  { value: "Kampong Speu", label: "Kampong Speu (កំពង់ស្ពឺ)" },
+  { value: "Koh Kong", label: "Koh Kong (កោះកុង)" },
+  { value: "Kratie", label: "Kratié (ក្រចេះ)" },
+  { value: "Kep", label: "Kep (កែប)" },
+  { value: "Takeo", label: "Takéo (តាកែវ)" },
+  { value: "Tboung Khmum", label: "Tboung Khmum (ត្បូងឃ្មុំ)" },
+  { value: "Battambang", label: "Battambang (បាត់ដំបង)" },
+  { value: "Banteay Meanchey", label: "Banteay Meanchey (បន្ទាយមានជ័យ)" },
+  { value: "Pailin", label: "Pailin (ប៉ៃលិន)" },
+  { value: "Pursat", label: "Pursat (ពោធិ៍សាត់)" },
+  { value: "Preah Vihear", label: "Preah Vihear (ព្រះវិហារ)" },
+  { value: "Preah Sihanouk", label: "Preah Sihanouk (ព្រះសីហនុ)" },
+  { value: "Prey Veng", label: "Prey Veng (ព្រៃវែង)" },
+  { value: "Phnom Penh", label: "Phnom Penh (ភ្នំពេញ)" },
+  { value: "Mondulkiri", label: "Mondulkiri (មណ្ឌលគិរី)" },
+  { value: "Ratanakiri", label: "Ratanakiri (រតនគិរី)" },
+  { value: "Siem Reap", label: "Siem Reap (សៀមរាប)" },
+  { value: "Stung Treng", label: "Stung Treng (ស្ទឹងត្រែង)" },
+  { value: "Svay Rieng", label: "Svay Rieng (ស្វាយរៀង)" },
+  { value: "Oddar Meanchey", label: "Oddar Meanchey (ឧត្តរមានជ័យ)" }
+];
+
+// Header component: current location picker + quick actions.
+export default function Navbar({ currentLocation, onChangeLocation }) {
+  // Controls visibility of the location dropdown.
+  const [showPicker, setShowPicker] = useState(false);
+
+  return (
+    <header className="bg-zinc-900 text-white rounded-b-3xl shadow-lg">
+      <div className="mx-auto max-w-md sm:max-w-lg px-4 sm:px-6 pt-5 pb-6">
+        {/* Top row: current location + quick actions */}
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs text-zinc-300">Current Location</p>
+            <button
+              type="button"
+              className="mt-1 flex items-center gap-2 text-left"
+              // Toggle the location picker open/close.
+              onClick={() => setShowPicker((prev) => !prev)}
+            >
+              <span className="h-2 w-2 rounded-full bg-accent" />
+              <h1 className="text-lg font-semibold">
+                {locations.find((loc) => loc.value === currentLocation)?.label ?? currentLocation}
+              </h1>
+            </button>
+          </div>
+          {/* Quick actions in header */}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              className="rounded-full bg-white/10 px-3 py-2 text-xs hover:bg-white/20 active:bg-white/30"
+              title="Notifications"
+              // Demo action for alerts.
+              onClick={() => {
+                alert("No new alerts yet.");
+              }}
+            >
+              Alerts
+            </button>
+            <Link
+              to="/services"
+              className="rounded-full bg-white/10 px-3 py-2 text-xs hover:bg-white/20 active:bg-white/30"
+            >
+              Nearby
+            </Link>
+          </div>
+        </div>
+        {/* Location picker dropdown */}
+        {showPicker && (
+          <div className="mt-4 grid gap-2 rounded-2xl bg-white/10 p-3">
+            {locations.map((loc) => (
+              <button
+                key={loc.value}
+                type="button"
+                onClick={() => {
+                  // Update current location in App state.
+                  onChangeLocation?.(loc.value);
+                  setShowPicker(false);
+                }}
+                className={`rounded-2xl px-3 py-2 text-left text-sm ${
+                  loc.value === currentLocation
+                    ? "bg-accent text-white"
+                    : "bg-white/10 text-white hover:bg-white/20"
+                }`}
+              >
+                {loc.label}
+              </button>
+            ))}
+          </div>
+        )}
+        {/* Branding row */}
+        <div className="mt-4 flex items-center justify-between">
+          <div>
+            <p className="text-xs text-zinc-300">Find services</p>
+            <p className="text-xl font-semibold">Local Service Finder</p>
+          </div>
+          <div className="h-10 w-10 rounded-2xl bg-accent text-center leading-10 text-sm font-semibold text-white">
+            LSF
+          </div>
+        </div>
+      </div>
+    </header>
+  );
 }
-
-export default Navbar;

@@ -1,38 +1,43 @@
-// Instruction: Update the brand name to your project name (e.g., "Local Service Finder").
-// Instruction: Keep links aligned to the main pages listed in the project brief.
-// Instruction: Use React Router <Link> later; for now <a> is fine for static UI.
-// Instruction: Add icons, hover effects, and dark/light mode styles in your CSS/Tailwind.
-import React from "react";
-import { Home, Tooltip, Info, PlusCircle, User, Moon, Sun } from 'lucide-react';
-import './Navbar.css';
-function Navbar() {
-    return (
-        <nav className="navbar">
-            {/* Instruction: Brand / logo text or icon */}
-            <div className="navbar-brand">
-                <span className="logo-icon">🔍</span>
-                <h1>Local Service Finder</h1>
-            </div>
-            {/* Instruction: Main nav links (Home, Services, Detail, Post, Auth) */}
-            <ul className="navbar-links">
-                <li><a href="/"><Home size={18} /> Home</a></li>
-                <li><a href="/services"><Tooltip size={18} /> Services</a></li>
-                <li><a href="/detail"><Info size={18} /> Detail</a></li>
-                <li><a href="/post"><PlusCircle size={18} /> Post Service</a></li>
-            </ul>
-            {/* Instruction: Actions (theme toggle + CTA button) */}
-            <div className="navbar-actions">
-                <button className="theme-toggle" title="Toggle Theme">
-                    <Moon size={20} className="dark-icon" />
-                    {/* <Sun size={20} className="light-icon" /> */}
-                </button>
+import { Link } from "react-router-dom";
 
-                <a href="/login" className="cta-button">
-                    <User size={18} /> Login
-                </a>
+export default function Navbar() {
+  return (
+    <header className="bg-zinc-900 text-white rounded-b-3xl shadow-lg">
+      <div className="mx-auto max-w-md px-4 pt-5 pb-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs text-zinc-300">Current Location</p>
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-accent" />
+              <h1 className="text-lg font-semibold">Phnom Penh</h1>
             </div>
-        </nav>
-    );
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              className="rounded-full bg-white/10 px-3 py-2 text-xs hover:bg-white/20 active:bg-white/30"
+              title="Notifications"
+            >
+              Alerts
+            </button>
+            <Link
+              to="/services"
+              className="rounded-full bg-white/10 px-3 py-2 text-xs hover:bg-white/20 active:bg-white/30"
+            >
+              Nearby
+            </Link>
+          </div>
+        </div>
+        <div className="mt-4 flex items-center justify-between">
+          <div>
+            <p className="text-xs text-zinc-300">Find services</p>
+            <p className="text-xl font-semibold">Local Service Finder</p>
+          </div>
+          <div className="h-10 w-10 rounded-2xl bg-accent text-center leading-10 text-sm font-semibold text-white">
+            LSF
+          </div>
+        </div>
+      </div>
+    </header>
+  );
 }
-
-export default Navbar;

@@ -2,7 +2,7 @@
 // Instruction: Link to Service Detail page and include favorite button (UI only).
 // Instruction: Handle missing data by showing safe placeholders.
 
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function ServiceCard({
   id,
@@ -11,28 +11,50 @@ export default function ServiceCard({
   location = "Unknown Location",
   price = 0,
   rating = "N/A",
+  distance = "1.2 km",
   description = "No description available",
   imageUrl = "https://via.placeholder.com/150"
 }) {
-    
-    return (
-        <article className="service-card">
-            {/* Instruction: Place image + favorite button here */}
-            <div className="card-header">
-                <img src={imageUrl} alt={name}/>
-                <button className="facorite-btn">❤️</button>
-            </div>
-            {/* Instruction: Place name, rating, price, and short description here */}
-            <h3>{name}</h3>
-                <p><strong>Rating:</strong> {rating}</p>
-                <p><strong>Price:</strong> ${price}</p>
-                <p>{description.substring(0, 60)}...</p>
+  const shortDescription =
+    description.length > 60 ? `${description.substring(0, 60)}...` : description;
 
-            {/* Instruction: Add link/button to open Service Detail page */}
-             <Link to={`/services/${id}`}>View Details</Link>
+  return (
+    <article className="rounded-2xl bg-white p-4 shadow-lg">
+      {/* Instruction: Place image + favorite button here */}
+      <div className="relative">
+        <img
+          src={imageUrl}
+          alt={name}
+          className="h-36 w-full rounded-2xl object-cover"
+        />
+        <button
+          className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-zinc-700 shadow"
+          type="button"
+        >
+          Save
+        </button>
+      </div>
+      {/* Instruction: Place name, rating, price, and short description here */}
+      <div className="mt-3 flex items-center justify-between">
+        <h3 className="text-base font-semibold text-zinc-900">{name}</h3>
+        <span className="text-xs text-zinc-500">{distance}</span>
+      </div>
+      <p className="mt-1 text-sm text-zinc-500">{category} · {location}</p>
+      <div className="mt-2 flex items-center justify-between text-sm">
+        <span className="font-semibold text-zinc-900">${price}</span>
+        <span className="rounded-full bg-zinc-100 px-2 py-1 text-xs text-zinc-600">
+          {rating} rating
+        </span>
+      </div>
+      <p className="mt-3 text-sm text-zinc-600">{shortDescription}</p>
 
-        </article>
-    );
+      {/* Instruction: Add link/button to open Service Detail page */}
+      <Link
+        to={`/services/${id}`}
+        className="mt-4 inline-flex items-center justify-center rounded-2xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-800 active:scale-[0.98]"
+      >
+        View Details
+      </Link>
+    </article>
+  );
 }
-
-
